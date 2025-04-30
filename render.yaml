@@ -1,23 +1,24 @@
 databases:
-  - name: rails-app-db  # Use the name you gave your Render PostgreSQL DB
+  - name: board-game-library-db
     plan: free
+    region: oregon
 
 services:
   - type: web
-    name: rails-app  # Choose a name for your web service
+    name: board-game-library
     runtime: ruby
     plan: free
-    region: ohio  # Use same region as your database
+    region: oregon
     buildCommand: "./bin/render-build.sh"
-    startCommand: "bundle exec rails server"
+    startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: rails-app-db  # Must match the database name above
+          name: board-game-library-db
           property: connectionString
-      - key: RAILS_ENV
-        value: production
       - key: RAILS_MASTER_KEY
         sync: false
-      - key: WEB_CONCURRENCY
-        value: 2
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
