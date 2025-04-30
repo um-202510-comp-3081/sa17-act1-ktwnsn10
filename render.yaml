@@ -1,0 +1,23 @@
+databases:
+  - name: rails-app-db  # Use the name you gave your Render PostgreSQL DB
+    plan: free
+
+services:
+  - type: web
+    name: rails-app  # Choose a name for your web service
+    runtime: ruby
+    plan: free
+    region: ohio  # Use same region as your database
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: rails-app-db  # Must match the database name above
+          property: connectionString
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2
