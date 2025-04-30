@@ -1,0 +1,25 @@
+<h1>BoardGames#index</h1>
+
+<!-- app/views/board_games/index.html.erb -->
+<h1>Board Game Library</h1>
+
+<table class="board-games-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Category</th>
+      <th>Player Range</th>
+      <th>Publisher</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @board_games.each do |game| %>
+      <tr>
+        <td><%= link_to game.title, board_game_path(game) %></td>
+        <td><%= game.category %></td>
+        <td><%= "#{game.min_players}-#{game.max_players}" %></td>
+        <td><%= game.publisher %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
